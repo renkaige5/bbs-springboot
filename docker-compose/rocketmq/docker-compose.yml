@@ -1,0 +1,52 @@
+version: "3.3"
+ 
+services:
+  rocketmq-namesrv:
+    image: apache/rocketmq:4.9.1
+    restart: always
+    container_name: rocketmq-namesrv
+    ports:
+      - "9876:9876"
+    volumes:
+      - ./logs/nameserver1:/home/rocketmq/logs/rocketmqlogs
+    command: sh mqnamesrv
+    networks:
+      renkaige:
+        ipv4_address: 172.18.0.32
+  rocketmq-broker:
+    image: apache/rocketmq:4.9.1
+    restart: always
+    container_name: rocketmq-broker
+    ports:
+      - "10911:10911"
+    volumes:
+      - ./logs/broker:/home/rocketmq/logs/rocketmqlogs
+      - ./conf/broker.conf:/home/rocketmq/rocketmq-4.9.1/conf/broker.conf
+    environment:
+      TZ: Asia/Shanghai
+      NAMESRV_ADDR: "rocketmq-namesrv:9876"
+      JAVA_OPTS: "-Duser.home=/opt"
+      JAVA_OPT_EXT: "-server -Xms128m -Xmx128m -Xmn128m"
+    command: sh mqbroker -c /home/rocketmq/rocketmq-4.9.1/conf/broker.conf
+    depends_on:
+      - rocketmq-namesrv
+    networks:
+      renkaige:
+        ipv4_address: 172.18.0.31
+#  rmqdashboard:
+#    image: apacherocketmq/rocketmq-dashboard:1.0.0
+#    restart: always
+#    container_name: rocket-dashboard
+#    environment:
+#      - JAVA_OPTS=-Drocketmq.config.namesrvAddr=rocketmq-namesrv:9876 -Dserver.port=8180 -Drocketmq.config.isVIPChannel=false
+#      # - JAVA_OPT_EXT=-Xms128m -Xmx128m -Xmn128m
+#    depends_on:
+#      - rocketmq-namesrv
+#    ports:
+#      - 8180:8180
+#    networks:
+#      renkaige:
+#        ipv4_address: 172.18.0.30
+networks:
+  renkaige:
+    external: true

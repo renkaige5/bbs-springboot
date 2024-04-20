@@ -12,7 +12,7 @@ spring:
     # mysql用户名（需要改成你自己的）
     username: root
     # mysql密码（需要改成你自己的）
-    password: 777888
+    password: Abc@123456
     # 下面为连接池的补充设置，应用到上面所有数据源中
     druid:
       # 初始化大小
@@ -48,9 +48,9 @@ spring:
           log-slow-sql: true
           slow-sql-millis: 2000
   redis:
-    host: 124.221.124.200
+    host: 127.0.0.1
     port: 6379
-    password: 12345678
+    password:
     # 单位 毫秒
     timeout: 60000
     lettuce:
@@ -60,13 +60,16 @@ spring:
         min-idle: 1
   data:
     mongodb:
-      uri: mongodb://127.0.0.1:27017/ns_bbs
+      username: "root"
+      password: "root"
+      database: ns_bbs
+      host: 127.0.0.1
 
 dubbo:
   application:
     name: ns-bbs-article
   registry:
-    address: zookeeper://124.221.124.200:2181
+    address: zookeeper://127.0.0.1:2181
     timeout: 60000
   protocol:
     name: dubbo

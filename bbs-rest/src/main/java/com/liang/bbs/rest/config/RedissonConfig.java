@@ -1,5 +1,6 @@
 package com.liang.bbs.rest.config;
 
+import cn.hutool.core.util.StrUtil;
 import org.redisson.Redisson;
 import org.redisson.api.RedissonClient;
 import org.redisson.config.Config;
@@ -38,7 +39,9 @@ public class RedissonConfig {
         Config config = new Config();
         SingleServerConfig singleServerConfig = config.useSingleServer();
         singleServerConfig.setAddress("redis://" + redisHost + ":" + redisPort);
-        singleServerConfig.setPassword(redisPassword);
+        if(StrUtil.isNotBlank(redisPassword)){
+            singleServerConfig.setPassword(redisPassword);
+        }
         singleServerConfig.setTimeout(redisTimeout);
 
         return Redisson.create(config);

@@ -1,0 +1,26 @@
+version: "3.9"
+services:
+  mongodb:
+    image: mongo:4.1.13
+    container_name: mongodb
+    restart: always
+    environment:
+    # 初始化一个 root 角色的用户 root 密码是 root
+      - TZ=Asia/Shanghai
+      - MONGO_INITDB_DATABASE=ns_bbs
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=root
+    ports:
+      - "27017:27017"
+    # 宿主机硬盘目录映射容器内的存放数据的目录  
+    volumes:
+      - ./data:/data/db
+    # 增加启动参数，--auth，表示连接 mongodb 需要用户名和密码
+    command:
+      - "--auth"
+    networks:
+      renkaige:
+        ipv4_address: 172.18.0.20
+networks:
+  renkaige:
+    external: true

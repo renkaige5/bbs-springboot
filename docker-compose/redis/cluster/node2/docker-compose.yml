@@ -1,0 +1,31 @@
+version: "3.4"
+
+# 定义服务，可以多个
+services:
+  redis-6374: # 服务名称
+    image: harbor.insightone.cn/redis/redis:6.2.6 # 创建容器时所需的镜像
+    container_name: redis-6374 # 容器名称
+    restart: always # 容器总是重新启动
+    network_mode: "host" # host 网络模式
+    volumes: # 数据卷，目录挂载
+      - ./6374/conf/redis.conf:/usr/local/etc/redis/redis.conf
+      - ./6374/data:/data
+    command: redis-server /usr/local/etc/redis/redis.conf # 覆盖容器启动后默认执行的命令
+
+  redis-6375:
+    image: harbor.insightone.cn/redis/redis:6.2.6
+    container_name: redis-6375
+    network_mode: "host"
+    volumes:
+      - ./6375/conf/redis.conf:/usr/local/etc/redis/redis.conf
+      - ./6375/data:/data
+    command: redis-server /usr/local/etc/redis/redis.conf
+
+  redis-6376:
+    image: harbor.insightone.cn/redis/redis:6.2.6
+    container_name: redis-6376
+    network_mode: "host"
+    volumes:
+      - ./6376/conf/redis.conf:/usr/local/etc/redis/redis.conf
+      - ./6376/data:/data
+    command: redis-server /usr/local/etc/redis/redis.conf

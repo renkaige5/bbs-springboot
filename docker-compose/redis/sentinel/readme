@@ -1,0 +1,4 @@
+1:将node1文件夹下的文件复制到node1节点,node2文件夹下的文件复制到node2节点
+2:修改node1/docker-compose.yml中node1节点ip为node节点的真实ip
+3:修改node2/sentinel*.conf中node1节点ip为node节点的真实ip
+4:启动node1和node2节点的docker-compose文件

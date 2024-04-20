@@ -12,7 +12,7 @@ spring:
     # mysql用户名（需要改成你自己的）
     username: root
     # mysql密码（需要改成你自己的）
-    password: 777888
+    password: Abc@123456
     # 下面为连接池的补充设置，应用到上面所有数据源中
     druid:
       # 初始化大小
@@ -48,9 +48,9 @@ spring:
           log-slow-sql: true
           slow-sql-millis: 2000
   redis:
-    host: 124.221.124.200
+    host: 127.0.0.1
     port: 6379
-    password: 12345678
+    password: ""
     # 单位 毫秒
     timeout: 60000
     lettuce:
@@ -63,7 +63,7 @@ dubbo:
   application:
     name: ns-bbs-user
   registry:
-    address: zookeeper://124.221.124.200:2181
+    address: zookeeper://127.0.0.1:2181
     timeout: 60000
   protocol:
     name: dubbo
@@ -81,8 +81,9 @@ mybatis:
   mapper-locations: classpath*:mybatis/mappers/*.xml
 
 # 一般情况下 默认的配置就行（可以自动识别），只对topic区分就行
+#注意修改docker-compose中rocketmq配置文件的地址
 rocketmq:
-  name-server: 124.221.124.200:9876
+  name-server: 127.0.0.1:9876
   producer:
     group: bbs-user-service
   consumer:

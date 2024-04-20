@@ -1,0 +1,19 @@
+1:将node1和node2文件夹中的文件分别复制到node1节点和node2节点的任意目录下
+2:上传完成后再node1节点执行如下命令,将"node1节点ip替换为真实的ip"
+for port in `seq 6371 6373`; do \
+   sed -i "s/node1/node1节点ip/g" ${port}/conf/redis.conf  &&  mkdir -p ${port}/data;\
+done
+3:上传完成后再node2节点执行如下命令,将"node2节点ip替换为真实的ip"
+for port in `seq 6374 6376`; do \
+   sed -i "s/node2/node2节点ip/g" ${port}/conf/redis.conf  &&  mkdir -p ${port}/data;\
+done
+4:在node1和node2的节点上分别执行docker-compose up -d
+5:在node1节点上执行docker exec -it redis-6371 bash -c "redis-cli -a 1234 --cluster create node1节点ip:6371 node1节点ip:6372 node1节点ip:6373 node2节点ip:6374 node2节点ip:6375 node2节点ip:6376 --cluster-replicas 1"
+根据提示输入yes确定
+6:验证集群是否搭建成功,在node1节点上执行docker exec -it redis-6371 bash -c "redis-cli -a 1234 --cluster check node1节点ip:6371"
+7:连接至集群某个节点
+  redis-cli -c -a 1234 -h 192.168.10.11 -p 6376
+  # 查看集群信息
+  cluster info
+  # 查看集群结点信息
+  cluster nodes
